@@ -30,7 +30,7 @@ jobs:
 
       - name: Build and Publish to Github Container registry
         run: |
-          docker build -t ghcr.io/faganooi/etcdkeeper:latest -f src/etcdkeeper/Dockerfile .
+          docker build -t ghcr.io/faganooi/etcdkeeper:latest .
           docker tag ghcr.io/faganooi/etcdkeeper:latest ghcr.io/faganooi/etcdkeeper:$IMAGE_TAG2
           docker push ghcr.io/faganooi/etcdkeeper:latest
           docker push ghcr.io/faganooi/etcdkeeper:$IMAGE_TAG2
