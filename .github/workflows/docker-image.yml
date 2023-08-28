@@ -1,0 +1,36 @@
+name: Github Container Registry
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Login with Github Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Get current time
+        uses: srfrnk/current-time@master
+        id: current-time
+        with:
+          format: YYYYMMDDHHmmss
+          
+      - name: Set Timestamp Image Tag
+        env:
+          TIME: "${{ steps.current-time.outputs.time }}"
+          F_TIME: "${{ steps.current-time.outputs.formattedTime }}"
+        run: echo "IMAGE_TAG2=$F_TIME" >> $GITHUB_ENV
+        
+      - name: Build and Publish to Github Container registry
+        run: |
+              docker build -t ghcr.io/FaganOoi/etcdkeeper:latest -f src/etcdkeeper/Dockerfile .
+              docker tag ghcr.io/FaganOoi/etcdkeeper:latest ghcr.io/FaganOoi/etcdkeeper:$IMAGE_TAG2
+              docker push ghcr.io/FaganOoi/etcdkeeper:latest
+              docker push ghcr.io/FaganOoi/etcdkeeper:$IMAGE_TAG2
