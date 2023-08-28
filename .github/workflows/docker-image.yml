@@ -15,22 +15,22 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          
+
       - name: Get current time
         uses: srfrnk/current-time@master
         id: current-time
         with:
           format: YYYYMMDDHHmmss
-          
+
       - name: Set Timestamp Image Tag
         env:
           TIME: "${{ steps.current-time.outputs.time }}"
           F_TIME: "${{ steps.current-time.outputs.formattedTime }}"
         run: echo "IMAGE_TAG2=$F_TIME" >> $GITHUB_ENV
-        
+
       - name: Build and Publish to Github Container registry
         run: |
-              docker build -t ghcr.io/FaganOoi/etcdkeeper:latest -f src/etcdkeeper/Dockerfile .
-              docker tag ghcr.io/FaganOoi/etcdkeeper:latest ghcr.io/FaganOoi/etcdkeeper:$IMAGE_TAG2
-              docker push ghcr.io/FaganOoi/etcdkeeper:latest
-              docker push ghcr.io/FaganOoi/etcdkeeper:$IMAGE_TAG2
+          docker build -t ghcr.io/faganooi/etcdkeeper:latest -f src/etcdkeeper/Dockerfile .
+          docker tag ghcr.io/faganooi/etcdkeeper:latest ghcr.io/faganooi/etcdkeeper:$IMAGE_TAG2
+          docker push ghcr.io/faganooi/etcdkeeper:latest
+          docker push ghcr.io/faganooi/etcdkeeper:$IMAGE_TAG2
