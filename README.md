@@ -1,23 +1,36 @@
-![image](https://github.com/evildecay/etcdkeeper/blob/master/logo/logo-horizontal.png)
-## ETCD Keeper
-* Lightweight etcd web client.
-* Support etcd 2.x and etcd 3.x.
-* The server uses the etcd go client interface, and the server compiles with the etcd client package.
-* Based easyui framework to achieve(easyui license [easyui website](http://www.jeasyui.com)).
+![image](./logo/logo-horizontal.png)
 
-## Usage
-* Run etcdkeeper.exe (windows version)
-* Run etcdkeeper.exe -auth (If enable etcd authentication)
-* [Download other platform releases](https://github.com/evildecay/etcdkeeper/releases).
+## ETCD Keeper
+
+This version is the fork branch from [evildecay/etcdkeeper](https://github.com/evildecay/etcdkeeper/tree/master) which modify the Dockerfile in order we can pass the argument to docker to setup the authentication and others flags used in source code.
+
+### Example
+
+By using this version of docker image, we can pass the arguments to command. Otherwise, we need to override entirely entrypoint.
+
+\*\* `etcdkeeper-local` is the local docker image build from source code.
+
+```yml
+etcdkeeper-local-auth:
+  image: etcdkeeper-local #"evildecay/etcdkeeper"
+  container_name: etcdkeeper-local-auth
+  command: ["-auth=true"]
+  # Below is the example of entrypoint we need to override if we use original version from evildecay/etcdkeeper.
+  # entrypoint: ["./etcdkeeper.bin", "-h", "0.0.0.0", "-p", "8080", "-auth=true"]
+  ports:
+    - "9000:8080"
 ```
-  Usage of etcdkeeper.exe:
+
+### Usage (Docker Command arguments)
+
+```
   -h string
         host name or ip address (default: "0.0.0.0", the http server addreess, not etcd address)
   -p int
         port (default 8080)
   -sep string
         Separator (default "/")
-  -usetls
+  -usetls bool
         use tls (only v3)
   -cacert string
         verify certificates of TLS-enabled secure servers using this CA bundle (only v3)
@@ -30,36 +43,3 @@
   -timeout int
         ETCD client connect timeout
 ```
-* Open your browser and enter the address: http://127.0.0.1:8080/etcdkeeper
-* Click on the version of the title to select the version of ETCD. The default is V3. Reopening will remember your choice.
-* Right click on the tree node to add or delete.
-* Get data based on etcd user permissions.
-  - Just display the list according to the configured permissions, and there will be time to add the configuration permission features.
-  - Each time you restart etcdkeeper, you need to enter the root username and password for each etcd server address. 
-  - [enable etcdv3 authentication](https://github.com/etcd-io/etcd/blob/master/Documentation/op-guide/authentication.md)
-  - [enable etcdv2 authentication](https://github.com/etcd-io/etcd/blob/master/Documentation/v2/authentication.md)
-* Display the status information of etcd, version, data size.
-* Etcd address can be modified by default to the localhost. If you change, press the Enter key to take effect.
-
-## Features
-* Etcd client view, Add, update or delete nodes.
-* Content edits use the ace editor([Ace editor](https://ace.c9.io)). Support toml,ini,yaml,json,xml and so on to highlight view.
-* Content format. (Currently only support json, Other types can be extended later) Thanks jim3ma for his contribution.[@jim3ma]( https://github.com/jim3ma)
-
-## Work in progress
-* Add import and export features.  **(delay)**
-
-## Special Note
-Because the etcdv3 version uses the new storage concept, without the catalog concept, the client uses the previous default "/" delimiter to view. See the documentation for etcdv3 [clientv3 doc](https://godoc.org/github.com/coreos/etcd/clientv3).
-
-## Docker
-Etdkeeper official image. (https://hub.docker.com/r/evildecay/etcdkeeper)
-
-## Screenshots
-![image](https://github.com/evildecay/etcdkeeper/blob/master/screenshots/ui.png)
-
-## Demo
-![image](https://github.com/evildecay/etcdkeeper/blob/master/screenshots/ui.gif)
-
-## License
-MIT

@@ -14,7 +14,7 @@ RUN go mod download \
 
 FROM alpine:3.10
 
-ENV HOST="0.0.0.0"
+# ENV HOST="0.0.0.0"
 ENV PORT="8080"
 
 # RUN apk add --no-cache ca-certificates
@@ -27,4 +27,9 @@ ADD assets assets
 
 EXPOSE ${PORT}
 
-ENTRYPOINT ./etcdkeeper.bin -h $HOST -p $PORT
+# shell form cannot accept command from docker 
+# ENTRYPOINT ./etcdkeeper.bin -h $HOST -p $PORT
+
+# exec form can accept command from docker 
+ENTRYPOINT ["/opt/etcdkeeper/etcdkeeper.bin"]
+CMD ["-h", "0.0.0.0", "-p", "${PORT}}"]
