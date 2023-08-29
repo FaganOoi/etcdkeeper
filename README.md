@@ -11,7 +11,7 @@ By using this version of docker image, we can pass the arguments to command. Oth
 
 ```yml
 etcdkeeper-local-auth:
-  image: ghcr.io/faganooi/etcdkeeper:20230829123835 #"evildecay/etcdkeeper"
+  image: ghcr.io/faganooi/etcdkeeper:latest #"evildecay/etcdkeeper"
   container_name: etcdkeeper-local-auth
   command: ["-auth=true"]
   # Below is the example of entrypoint we need to override if we use original version from evildecay/etcdkeeper.
