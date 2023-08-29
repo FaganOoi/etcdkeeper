@@ -1042,9 +1042,17 @@ func getPermissionPrefix(host, uname, key string) ([][]string, error) {
 					break
 				}
 			}
+
+			var isReadAll bool
 			var pers [][]string
 			for k, v := range set {
 				pers = append(pers, []string{k, v})
+				if(k == string("\000") && v == string("\000")){
+					isReadAll = true
+				}
+			}
+			if(isReadAll){
+				return [][]string{{key, "p"}}, nil
 			}
 			return pers, nil
 		}

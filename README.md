@@ -2,7 +2,7 @@
 
 ## ETCD Keeper
 
-This version is the fork branch from [evildecay/etcdkeeper](https://github.com/evildecay/etcdkeeper/tree/master) which modify the Dockerfile in order we can pass the argument to docker to setup the authentication and others flags used in source code.
+This version is the fork branch from [evildecay/etcdkeeper](https://github.com/evildecay/etcdkeeper/tree/master) which modify the Dockerfile in order we can pass the argument to docker to setup the authentication and etc. For the changes history, please refer to [here](./CHANGES.md).
 
 ### Example
 
@@ -24,10 +24,6 @@ etcdkeeper-local-auth:
 ### Usage (Docker Command arguments)
 
 ```
-  -h string
-        host name or ip address (default: "0.0.0.0", the http server addreess, not etcd address)
-  -p int
-        port (default 8080)
   -sep string
         Separator (default "/")
   -usetls bool
@@ -42,4 +38,19 @@ etcdkeeper-local-auth:
         use etcd auth
   -timeout int
         ETCD client connect timeout
+```
+
+### Role and example
+
+It is example to create role and user which grant permissions to read all keys.
+Below command required to run inside docker container by running command of `docker exec -it <container name> bash`.
+
+```
+etcdctl role add read_only_role
+
+etcdctl role grant-permission read_only_role --prefix=true read ''
+
+etcdctl user add readUser:readUserPwd
+
+etcdctl user grant-role readUser read_only_role
 ```
