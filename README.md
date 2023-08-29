@@ -8,11 +8,10 @@ This version is the fork branch from [evildecay/etcdkeeper](https://github.com/e
 
 By using this version of docker image, we can pass the arguments to command. Otherwise, we need to override entirely entrypoint.
 
-\*\* `etcdkeeper-local` is the local docker image build from source code.
 
 ```yml
 etcdkeeper-local-auth:
-  image: etcdkeeper-local #"evildecay/etcdkeeper"
+  image: ghcr.io/faganooi/etcdkeeper:20230829123835 #"evildecay/etcdkeeper"
   container_name: etcdkeeper-local-auth
   command: ["-auth=true"]
   # Below is the example of entrypoint we need to override if we use original version from evildecay/etcdkeeper.
